@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
-
+import os
 def new_window(x):
     ws = tk.Toplevel()
     ws.geometry("600x100")
@@ -74,7 +74,7 @@ settings.lift()
 
 doors = [
     Door(window, 70, 0, "Door 1", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],
         "escape_room/door.jpg"),
     # [Other doors remain the same...]
     Door(window, 235, 0, "Door 2", "black", 
@@ -103,10 +103,43 @@ def second_windows():
     win = tk.Tk()
     win.title("Nächster Raum")
     win.geometry("1100x800")
-    label = tk.Label(win, 
-                   text="Herzlichen Glückwunsch!\nSie haben den Raum erfolgreich verlassen!",
-                   font=("Arial", 24))
-    label.pack(pady=200)
+    canva = tk.Canvas(win, width=1100, height=800)
+    try:
+        import os
+        # Get absolute path to image
+        #img_path = os.path.join(os.path.dirname(__file__), "tressor.jpg")
+        img_path= ".\tressor.jpg"
+        print(f"Loading image from: {img_path}")  # Debug output
+        im = Image.open(img_path)
+        im = im.resize((1100, 800), Image.LANCZOS)
+        image = ImageTk.PhotoImage(im)
+        canva.create_image(0, 0, image=image, anchor="nw")
+        canva.image = image  # Keep reference
+    except Exception as e:
+        print(f"Error loading image: {e}")  # Show exact error
+        canva.configure(bg='white')
+    canva.pack(fill="both", expand=True)
+    doors = [
+        Door(win, 70, 0, "Door 1", "yellow", 
+            lambda: [win := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), win.after(0, win.destroy)],
+            "escape_room/door.jpg"),
+        # [Other doors remain the same...]
+        Door(win, 235, 0, "Door 2", "black", 
+            lambda: [win := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), win.after(30000, win.destroy)],
+            "escape_room/door.jpg"),
+        Door(win, 410, 0, "Door 3", "red", 
+            lambda: [win := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVW HQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), win.after(30000, win.destroy)],
+            "escape_room/door.jpg"),
+        Door(win, 70, 280, "Door 4", "yellow", 
+            lambda: [win := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), win.after(30000, win.destroy)],
+            "escape_room/door.jpg"),
+        Door(win, 235, 280, "Door 5", "red", 
+            lambda: [win := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), win.after(30000, win.destroy)],
+            "escape_room/door.jpg"),
+        Door(win, 410, 280, "Door 6", "yellow", 
+            lambda: [win := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), win.after(30000, win.destroy)],
+            "escape_room/door.jpg")
+    ]   
     win.mainloop()
 
 def end_window():
@@ -121,6 +154,7 @@ def end_window():
         ws = new_window("Please enter a valid number!")
         ws.after(2000, ws.destroy)
 
+    
 # UI Elements
 instruction = tk.Label(window, 
                       text="Enter the secret code to escape:", 
