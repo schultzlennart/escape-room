@@ -101,23 +101,23 @@ settings.lift()
 
 doors = [
     Door(window, 70, 0, "Door 1", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],
+        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],    #die Quersumme dieser drei Zahlen ergibt eine drei
         "escape_room/door.jpg"),
     # [Other doors remain the same...]
     Door(window, 235, 0, "Door 2", "black", 
-        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), ws.after(30000, ws.destroy)],   #Zähle die Nummern der ersten und der dritten Tür. Sie ergeben 7 
         "escape_room/door.jpg"),
     Door(window, 410, 0, "Door 3", "red", 
-        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVW HQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVWHQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), ws.after(30000, ws.destroy)],    #Bilde den Durchschnitt der ersten, dritten und zweiten Tür. der durchscnnitt sollte sechs ergeben im caesar
         "escape_room/door.jpg"),
     Door(window, 70, 280, "Door 4", "yellow", 
-        lambda: [ws := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), ws.after(30000, ws.destroy)],    # die nummer dieser tür ist die addition von allen vorherigen türen
         "escape_room/door.jpg"),
     Door(window, 235, 280, "Door 5", "red", 
-        lambda: [ws := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), ws.after(30000, ws.destroy)],   
         "escape_room/door.jpg"),
     Door(window, 410, 280, "Door 6", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],  #die Quersumme der esten tür sagt dir, an welche stelle sie kommt
         "escape_room/door.jpg")
 ]
 
