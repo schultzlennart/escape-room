@@ -1,3 +1,4 @@
+
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -98,62 +99,45 @@ doors = [
 def get_input(x):
     return txt.get('1.0', 'end-1c').strip()
 
-def second_windows():
-    window.after(500, window.destroy)
-    win = tk.Tk()
-    win.title("Nächster Raum")
-    win.geometry("1100x800")
-    canva = tk.Canvas(win, width=1100, height=800)
+
+def clear_window():
+    for widget in window.winfo_children():
+        widget.destroy()
+    # Add new UI elements after clearing
+    canva = tk.Canvas(window, width=1100, height=800)
     try:
-        import os
-        # Get absolute path to image
-        #img_path = os.path.join(os.path.dirname(__file__), "tressor.jpg")
-        img_path= ".\tressor.jpg"
-        print(f"Loading image from: {img_path}")  # Debug output
-        im = Image.open(img_path)
-        im = im.resize((1100, 800), Image.LANCZOS)
-        image = ImageTk.PhotoImage(im)
+        img = Image.open("tresor.jpg")
+        img = img.resize((1100, 800), Image.LANCZOS)
+        image = ImageTk.PhotoImage(img)
         canva.create_image(0, 0, image=image, anchor="nw")
-        canva.image = image  # Keep reference
-    except Exception as e:
-        print(f"Error loading image: {e}")  # Show exact error
-        canva.configure(bg='white')
+        canva.image = image  
+    except:
+        canva.configure(bg='blue')
     canva.pack(fill="both", expand=True)
-    doors = [
-        Door(win, 70, 0, "Door 1", "yellow", 
-            lambda: [win := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), win.after(0, win.destroy)],
-            "escape_room/door.jpg"),
-        # [Other doors remain the same...]
-        Door(win, 235, 0, "Door 2", "black", 
-            lambda: [win := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), win.after(30000, win.destroy)],
-            "escape_room/door.jpg"),
-        Door(win, 410, 0, "Door 3", "red", 
-            lambda: [win := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVW HQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), win.after(30000, win.destroy)],
-            "escape_room/door.jpg"),
-        Door(win, 70, 280, "Door 4", "yellow", 
-            lambda: [win := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), win.after(30000, win.destroy)],
-            "escape_room/door.jpg"),
-        Door(win, 235, 280, "Door 5", "red", 
-            lambda: [win := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), win.after(30000, win.destroy)],
-            "escape_room/door.jpg"),
-        Door(win, 410, 280, "Door 6", "yellow", 
-            lambda: [win := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), win.after(30000, win.destroy)],
-            "escape_room/door.jpg")
-    ]   
-    win.mainloop()
+    
+    # Add new instruction label
+    new_label = tk.Label(window, 
+                        text="You've cleared the first room!\nNow solve the next puzzle:", 
+                        font=("Arial", 16))
+    new_label.place(x=400, y=100)
+
 
 def end_window():
     user_input = get_input("u got the right code")
     try:
         if int(user_input) == 4239:
-            second_windows()
+            clear_window()
+            # Add new UI elements for the next challenge
+            next_btn = tk.Button(window, text="Start Next Challenge", 
+                               command=lambda: new_window("Next puzzle coming soon!"),
+                               font=("Arial", 14))
+            next_btn.place(x=500, y=200)
         else:
             ws = new_window("Incorrect code! Try again.")
             ws.after(2000, ws.destroy)
     except ValueError:
         ws = new_window("Please enter a valid number!")
         ws.after(2000, ws.destroy)
-
     
 # UI Elements
 instruction = tk.Label(window, 
@@ -168,5 +152,10 @@ txt.place(x=600, y=280)
 btn = tk.Button(window, text="Submit Code", command=end_window,
                font=("Arial", 12), padx=20, pady=5)
 btn.place(x=650, y=380)
+
+
+
+
+
 
 window.mainloop()
