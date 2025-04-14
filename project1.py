@@ -14,15 +14,21 @@ class NumberRectangle:
         self.create_rectangle()
 
     def create_rectangle(self):
-        self.text_id = self.canvas.create_text(50, 50, text=str(self.number),
-                              font=("Arial", 24, "bold"), state='hidden')
-        self.master.bind("<Button-1>", lambda e: self.on_click())
+        # Create completely transparent clickable area
+        self.click_area = tk.Frame(self.master, 
+                                 width=40, 
+                                 height=40,
+                                 highlightthickness=0,
+                                 bd=0,
+                                 bg="")
+        self.click_area.place(x=self.x, y=self.y)
+        self.click_area.bind("<Button-1>", lambda e: self.on_click())
 
     def on_click(self):
-        current_text = self.display_canvas.itemcget("display", "text")
-        new_text = current_text + str(self.number)
-        self.display_canvas.itemconfig("display", text=new_text)
-
+        if hasattr(self, 'display_canvas') and self.display_canvas:
+            current_text = self.display_canvas.itemcget("display", "text")
+            new_text = current_text + str(self.number)
+            self.display_canvas.itemconfig("display", text=new_text)
 def new_window(x):
     ws = tk.Toplevel()
     ws.geometry("600x100")
@@ -140,14 +146,19 @@ def clear_window():
     display.create_text(150, 50, text="", font=("Arial", 24), tags="display")
     
     coords = {
-        0: (50, 50), 1: (200, 50), 2: (350, 50), 3: (500, 50), 4: (650, 50),
-        5: (50, 200), 6: (200, 200), 7: (350, 200), 8: (500, 200), 9: (650, 200)
+        0: (620, 466), 1: (572, 322), 2: (620, 322), 3: (668, 322), 4: (572, 370),
+        5: (620, 370), 6: (668, 370), 7: (572, 418), 8: (620, 418), 9: (668, 418)
     }
     
     for num, (x, y) in coords.items():
         NumberRectangle(window, x, y, num, display_canvas=display)
         
-
+    def clear_sequence():
+        display.itemconfig("display", text="")
+    
+    clear_btn = tk.Button(window, text="Clear", command=clear_sequence,
+                         font=("Arial", 12))
+    clear_btn.place(x=400, y=500)
     # Add new instruction label
     new_label = tk.Label(window, 
                         text="You've cleared the first room!\nNow solve the next puzzle:", 
