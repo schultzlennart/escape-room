@@ -3,6 +3,26 @@ from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+class NumberRectangle:
+    def __init__(self, master, x, y, number, color="lightblue", display_canvas=None):
+        self.master = master
+        self.x = x
+        self.y = y
+        self.number = number
+        self.color = color
+        self.display_canvas = display_canvas
+        self.create_rectangle()
+
+    def create_rectangle(self):
+        self.text_id = self.canvas.create_text(50, 50, text=str(self.number),
+                              font=("Arial", 24, "bold"), state='hidden')
+        self.master.bind("<Button-1>", lambda e: self.on_click())
+
+    def on_click(self):
+        current_text = self.display_canvas.itemcget("display", "text")
+        new_text = current_text + str(self.number)
+        self.display_canvas.itemconfig("display", text=new_text)
+
 def new_window(x):
     ws = tk.Toplevel()
     ws.geometry("600x100")
@@ -114,7 +134,20 @@ def clear_window():
     except:
         canva.configure(bg='blue')
     canva.pack(fill="both", expand=True)
+
+    display = tk.Canvas(window, width=300, height=100, bg="white")
+    display.place(x=250, y=400)
+    display.create_text(150, 50, text="", font=("Arial", 24), tags="display")
     
+    coords = {
+        0: (50, 50), 1: (200, 50), 2: (350, 50), 3: (500, 50), 4: (650, 50),
+        5: (50, 200), 6: (200, 200), 7: (350, 200), 8: (500, 200), 9: (650, 200)
+    }
+    
+    for num, (x, y) in coords.items():
+        NumberRectangle(window, x, y, num, display_canvas=display)
+        
+
     # Add new instruction label
     new_label = tk.Label(window, 
                         text="You've cleared the first room!\nNow solve the next puzzle:", 
@@ -152,7 +185,6 @@ txt.place(x=600, y=280)
 btn = tk.Button(window, text="Submit Code", command=end_window,
                font=("Arial", 12), padx=20, pady=5)
 btn.place(x=650, y=380)
-
 
 
 
