@@ -145,11 +145,12 @@ def next_level():
     display = tk.Canvas(window, width=300, height=100, bg="white")
     display.place(x=250, y=400)
     display.create_text(150, 50, text="", font=("Arial", 24), tags="display")
-
+    #The next level is created here
     def another_lvl():
         if display.itemcget("display", "text") == "1215311":
             for widget in window.winfo_children():
                 widget.destroy()
+            lvl3()
             ws=new_window("wow didnt think u could do it, congrats")
             ws.after(3000, ws.destroy)
         else:
@@ -185,11 +186,21 @@ def next_level():
     clear_btn.place(x=400, y=500)
     # Add new instruction label
     new_label = tk.Label(window, 
-                        text="You've cleared the first room!\nNow solve the next puzzle:",
+                        text="You've cleared the first room!\nNow solve the next puzzle:\n find out what the names are saying,\n put them in the right order\n and get the right combination",
                         font=("Arial", 16))
-    new_label.place(x=250, y=340)
+    new_label.place(x=220, y=275)
 
-
+def lvl3():
+    canva = tk.Canvas(window, width=1100, height=800)
+    try:
+        img = Image.open("bg.jpg")
+        img = img.resize((1100, 800), Image.LANCZOS)
+        image = ImageTk.PhotoImage(img)
+        canva.create_image(0, 0, image=image, anchor="nw")
+        canva.image = image  
+    except:
+        canva.configure(bg='blue')
+    canva.pack(fill="both", expand=True)
 
 
 def end_window():
