@@ -3,6 +3,8 @@ from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+
+
 class NumberRectangle:
     def __init__(self, master, x, y, number, color="lightblue", display_canvas=None):
         self.master = master
@@ -125,8 +127,7 @@ doors = [
 def get_input(x):
     return txt.get('1.0', 'end-1c').strip()
 
-
-def clear_window():
+def next_level():
     for widget in window.winfo_children():
         widget.destroy()
     # Add new UI elements after clearing
@@ -144,38 +145,64 @@ def clear_window():
     display = tk.Canvas(window, width=300, height=100, bg="white")
     display.place(x=250, y=400)
     display.create_text(150, 50, text="", font=("Arial", 24), tags="display")
-    
+
+    def another_lvl():
+        if display.itemcget("display", "text") == "1215311":
+            for widget in window.winfo_children():
+                widget.destroy()
+            ws=new_window("wow didnt think u could do it, congrats")
+            ws.after(3000, ws.destroy)
+        else:
+            ws=new_window("u got it wrong, try again!")
+            ws.after(3000, ws.destroy)
+    next_btn = tk.Button(window, text="Start Next Challenge", 
+                               command=another_lvl,
+                               font=("Arial", 14))
+    next_btn.place(x=500, y=200)
+
     coords = {
         0: (620, 466), 1: (572, 322), 2: (620, 322), 3: (668, 322), 4: (572, 370),
         5: (620, 370), 6: (668, 370), 7: (572, 418), 8: (620, 418), 9: (668, 418)
     }
     
+    next_quiz=tk.Label(window,text="charlie",font=("Arial",36))
+    next_quiz.place(x=50,y=50)
+    nq1=tk.Label(window,text="lima",font=("Arial",36))
+    nq1.place(x=500,y=50)
+    nq2=tk.Label(window,text="oscar",font=("Arial",36))
+    nq2.place(x=800,y=50)
+    nq3=tk.Label(window,text="kilo",font=("Arial",36))
+    nq3.place(x=800,y=600) 
+
     for num, (x, y) in coords.items():
         NumberRectangle(window, x, y, num, display_canvas=display)
         
     def clear_sequence():
         display.itemconfig("display", text="")
     
-    clear_btn = tk.Button(window, text="Clear", command=clear_sequence,
+    clear_btn = tk.Button(window, text="Clear",command=clear_sequence,
                          font=("Arial", 12))
     clear_btn.place(x=400, y=500)
     # Add new instruction label
     new_label = tk.Label(window, 
-                        text="You've cleared the first room!\nNow solve the next puzzle:", 
+                        text="You've cleared the first room!\nNow solve the next puzzle:",
                         font=("Arial", 16))
-    new_label.place(x=400, y=100)
+    new_label.place(x=250, y=340)
+
+
 
 
 def end_window():
     user_input = get_input("u got the right code")
+    
     try:
         if int(user_input) == 4239:
-            clear_window()
+            next_level()
             # Add new UI elements for the next challenge
-            next_btn = tk.Button(window, text="Start Next Challenge", 
-                               command=lambda: new_window("Next puzzle coming soon!"),
-                               font=("Arial", 14))
-            next_btn.place(x=500, y=200)
+            
+            ws=new_window("you cleared the first room")
+            ws.after(2000, ws.destroy)
+            
         else:
             ws = new_window("Incorrect code! Try again.")
             ws.after(2000, ws.destroy)
@@ -196,9 +223,5 @@ txt.place(x=600, y=280)
 btn = tk.Button(window, text="Submit Code", command=end_window,
                font=("Arial", 12), padx=20, pady=5)
 btn.place(x=650, y=380)
-
-
-
-
 
 window.mainloop()
