@@ -83,7 +83,7 @@ window.title("Escape Room")
 # Background image
 canva = tk.Canvas(window, width=1100, height=800)
 try:
-    img = Image.open("by.jpg")
+    img = Image.open("tür.jpg")
     img = img.resize((1100, 800), Image.LANCZOS)
     image = ImageTk.PhotoImage(img)
     canva.create_image(0, 0, image=image, anchor="nw")
@@ -126,6 +126,9 @@ doors = [
 # [Rest of UI elements and functions remain unchanged...]
 def get_input(x):
     return txt.get('1.0', 'end-1c').strip()
+
+
+
 
 def next_level():
     for widget in window.winfo_children():
@@ -190,10 +193,15 @@ def next_level():
                         font=("Arial", 16))
     new_label.place(x=220, y=275)
 
+
+
+
+#the next floor
+
 def lvl3():
     canva = tk.Canvas(window, width=1100, height=800)
     try:
-        img = Image.open("bg.jpg")
+        img = Image.open("by.jpg")
         img = img.resize((1100, 800), Image.LANCZOS)
         image = ImageTk.PhotoImage(img)
         canva.create_image(0, 0, image=image, anchor="nw")
@@ -201,6 +209,87 @@ def lvl3():
     except:
         canva.configure(bg='blue')
     canva.pack(fill="both", expand=True)
+    left= tk.Label( window, text="left",font=("Arial", 36))
+    left.place(x=150,y=50)
+    right=tk.Label(window,text="right",font=("Arial",36))
+    right.place(x=880,y=50)
+    middle=tk.Label( window, text="middle",font=("Arial", 36))
+    middle.place(x=500,y=50)
+
+    # Create invisible rectangles on the background canvas with tags
+    rectanglel = canva.create_rectangle(65, 150, 65+250, 150+520, outline="", fill="", tags="left")
+    rectanglem = canva.create_rectangle(410, 150, 410+270, 150+520, outline="", fill="", tags="middle")
+    rectangler = canva.create_rectangle(780, 150, 780+250, 150+520, outline="", fill="", tags="right")
+
+    # Define a single click handler for all rectangles
+    def on_click(event):
+        clicked_items = event.widget.find_withtag("current")
+        if not clicked_items:
+            return
+        tags = event.widget.gettags(clicked_items[0])
+        if "left" in tags:
+            print("Clicked left area")
+            for widget in window.winfo_children():
+                widget.destroy()
+                canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("ppl.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+                canva.image = image  # Keep a reference to prevent garbage collection
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+        elif "middle" in tags:
+            print("Clicked middle area")
+            for widget in window.winfo_children():
+                widget.destroy()
+            canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("book.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+        elif "right" in tags:
+            print("Clicked right area")
+            for widget in window.winfo_children():
+                widget.destroy()
+            canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("awll.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+            rätsel=tk.Label(window,text="2 + 2 = 5\n"   #V
+                            "Hauptstadt von Frankreich = Rom\n"  #P
+                            "Die Farbe der Sonne = Blau\n"      #G
+                            "Gegenteil von heiss = Banane\n"    #K
+                            "Wasser gefriert bei = 50°C\n"  #N
+                            "Die Quadratwurzel von 9 = 1\n" #D
+                            "es gibt __ Tage in der Woche = 10\n"   #S
+                            "Die Erde ist flach = Ja")  #R
+            #Lösungswort VPGKNDSR
+            
+        return "break"
+
+    # Bind the single click handler to all rectangles
+    canva.tag_bind("left", "<Button-1>", on_click)
+    canva.tag_bind("middle", "<Button-1>", on_click)
+    canva.tag_bind("right", "<Button-1>", on_click)
+
+
+
+
+
+
+
 
 
 def end_window():
