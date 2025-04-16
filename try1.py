@@ -3,6 +3,8 @@ from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+
+
 class NumberRectangle:
     def __init__(self, master, x, y, number, color="lightblue", display_canvas=None):
         self.master = master
@@ -18,9 +20,9 @@ class NumberRectangle:
         self.click_area = tk.Frame(self.master, 
                                  width=40, 
                                  height=40,
-                                 highlightthickness=1,
-                                 bd=1,
-                                 bg="white")
+                                 highlightthickness=0,
+                                 bd=0,
+                                 bg="")
         self.click_area.place(x=self.x, y=self.y)
         self.click_area.bind("<Button-1>", lambda e: self.on_click())
 
@@ -76,7 +78,7 @@ class Door:
 # [Rest of the file remains exactly the same as previous version...]
 window = tk.Tk()
 window.geometry("1100x800")
-window.title("try 1")
+window.title("Escape Room")
 
 # Background image
 canva = tk.Canvas(window, width=1100, height=800)
@@ -101,23 +103,23 @@ settings.lift()
 
 doors = [
     Door(window, 70, 0, "Door 1", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],
+        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],    #die Quersumme dieser drei Zahlen ergibt eine drei
         "escape_room/door.jpg"),
     # [Other doors remain the same...]
     Door(window, 235, 0, "Door 2", "black", 
-        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), ws.after(30000, ws.destroy)],   #Zähle die Nummern der ersten und der dritten Tür. Sie ergeben 7 
         "escape_room/door.jpg"),
     Door(window, 410, 0, "Door 3", "red", 
-        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVW HQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVWHQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), ws.after(30000, ws.destroy)],    #Bilde den Durchschnitt der ersten, dritten und zweiten Tür. der durchscnnitt sollte sechs ergeben im caesar
         "escape_room/door.jpg"),
     Door(window, 70, 280, "Door 4", "yellow", 
-        lambda: [ws := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), ws.after(30000, ws.destroy)],    # die nummer dieser tür ist die addition von allen vorherigen türen
         "escape_room/door.jpg"),
     Door(window, 235, 280, "Door 5", "red", 
-        lambda: [ws := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), ws.after(30000, ws.destroy)],   
         "escape_room/door.jpg"),
     Door(window, 410, 280, "Door 6", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],
+        lambda: [ws := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],  #die Quersumme der esten tür sagt dir, an welche stelle sie kommt
         "escape_room/door.jpg")
 ]
 
@@ -126,7 +128,9 @@ def get_input(x):
     return txt.get('1.0', 'end-1c').strip()
 
 
-def clear_window():
+
+
+def next_level():
     for widget in window.winfo_children():
         widget.destroy()
     # Add new UI elements after clearing
@@ -144,38 +148,151 @@ def clear_window():
     display = tk.Canvas(window, width=300, height=100, bg="white")
     display.place(x=250, y=400)
     display.create_text(150, 50, text="", font=("Arial", 24), tags="display")
-    
+    #The next level is created here
+    def another_lvl():
+        if display.itemcget("display", "text") == "1215311":
+            for widget in window.winfo_children():
+                widget.destroy()
+            lvl3()
+            ws=new_window("wow didnt think u could do it, congrats")
+            ws.after(3000, ws.destroy)
+        else:
+            ws=new_window("u got it wrong, try again!")
+            ws.after(3000, ws.destroy)
+    next_btn = tk.Button(window, text="Start Next Challenge", 
+                               command=another_lvl,
+                               font=("Arial", 14))
+    next_btn.place(x=500, y=200)
+
     coords = {
         0: (620, 466), 1: (572, 322), 2: (620, 322), 3: (668, 322), 4: (572, 370),
         5: (620, 370), 6: (668, 370), 7: (572, 418), 8: (620, 418), 9: (668, 418)
     }
     
+    next_quiz=tk.Label(window,text="charlie",font=("Arial",36))
+    next_quiz.place(x=50,y=50)
+    nq1=tk.Label(window,text="lima",font=("Arial",36))
+    nq1.place(x=500,y=50)
+    nq2=tk.Label(window,text="oscar",font=("Arial",36))
+    nq2.place(x=800,y=50)
+    nq3=tk.Label(window,text="kilo",font=("Arial",36))
+    nq3.place(x=800,y=600) 
+
     for num, (x, y) in coords.items():
         NumberRectangle(window, x, y, num, display_canvas=display)
         
     def clear_sequence():
         display.itemconfig("display", text="")
     
-    clear_btn = tk.Button(window, text="Clear", command=clear_sequence,
+    clear_btn = tk.Button(window, text="Clear",command=clear_sequence,
                          font=("Arial", 12))
     clear_btn.place(x=400, y=500)
     # Add new instruction label
     new_label = tk.Label(window, 
-                        text="You've cleared the first room!\nNow solve the next puzzle:", 
+                        text="You've cleared the first room!\nNow solve the next puzzle:\n find out what the names are saying,\n put them in the right order\n and get the right combination",
                         font=("Arial", 16))
-    new_label.place(x=400, y=100)
+    new_label.place(x=220, y=275)
+
+
+
+
+#the next floor
+
+def lvl3():
+    canva = tk.Canvas(window, width=1100, height=800)
+    try:
+        img = Image.open("by.jpg")
+        img = img.resize((1100, 800), Image.LANCZOS)
+        image = ImageTk.PhotoImage(img)
+        canva.create_image(0, 0, image=image, anchor="nw")
+        canva.image = image  
+    except:
+        canva.configure(bg='blue')
+    canva.pack(fill="both", expand=True)
+    left= tk.Label( window, text="left",font=("Arial", 36))
+    left.place(x=150,y=50)
+    right=tk.Label(window,text="right",font=("Arial",36))
+    right.place(x=880,y=50)
+    middle=tk.Label( window, text="middle",font=("Arial", 36))
+    middle.place(x=500,y=50)
+
+    # Create invisible rectangles on the background canvas with tags
+    rectanglel = canva.create_rectangle(65, 150, 65+250, 150+520, outline="", fill="", tags="left")
+    rectanglem = canva.create_rectangle(410, 150, 410+270, 150+520, outline="", fill="", tags="middle")
+    rectangler = canva.create_rectangle(780, 150, 780+250, 150+520, outline="", fill="", tags="right")
+
+    # Define a single click handler for all rectangles
+    def on_click(event):
+        clicked_items = event.widget.find_withtag("current")
+        if not clicked_items:
+            return
+        tags = event.widget.gettags(clicked_items[0])
+        if "left" in tags:
+            print("Clicked left area")
+            for widget in window.winfo_children():
+                widget.destroy()
+                canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("bg.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+                canva.image = image  # Keep a reference to prevent garbage collection
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+        elif "middle" in tags:
+            print("Clicked middle area")
+            for widget in window.winfo_children():
+                widget.destroy()
+            canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("bg.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+        elif "right" in tags:
+            print("Clicked right area")
+            for widget in window.winfo_children():
+                widget.destroy()
+            canva = tk.Canvas(window, width=1100, height=800)
+            try:
+                img = Image.open("bg.jpg")
+                img = img.resize((1100, 800), Image.LANCZOS)
+                image = ImageTk.PhotoImage(img)
+                canva.create_image(0, 0, image=image, anchor="nw")
+            except:
+                canva.configure(bg='blue')  
+            canva.pack(fill="both", expand=True)
+        return "break"
+
+    # Bind the single click handler to all rectangles
+    canva.tag_bind("left", "<Button-1>", on_click)
+    canva.tag_bind("middle", "<Button-1>", on_click)
+    canva.tag_bind("right", "<Button-1>", on_click)
+
+
+
+
+
+
+
 
 
 def end_window():
     user_input = get_input("u got the right code")
+    
     try:
         if int(user_input) == 4239:
-            clear_window()
+            next_level()
             # Add new UI elements for the next challenge
-            next_btn = tk.Button(window, text="Start Next Challenge", 
-                               command=lambda: new_window("Next puzzle coming soon!"),
-                               font=("Arial", 14))
-            next_btn.place(x=500, y=200)
+            
+            ws=new_window("you cleared the first room")
+            ws.after(2000, ws.destroy)
+            
         else:
             ws = new_window("Incorrect code! Try again.")
             ws.after(2000, ws.destroy)
@@ -196,9 +313,5 @@ txt.place(x=600, y=280)
 btn = tk.Button(window, text="Submit Code", command=end_window,
                font=("Arial", 12), padx=20, pady=5)
 btn.place(x=650, y=380)
-
-
-
-
 
 window.mainloop()
