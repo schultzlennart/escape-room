@@ -1,4 +1,3 @@
-
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -229,55 +228,90 @@ def lvl3():
         tags = event.widget.gettags(clicked_items[0])
         if "left" in tags:
             print("Clicked left area")
+
+    # Clear the window
             for widget in window.winfo_children():
                 widget.destroy()
-                canva = tk.Canvas(window, width=1100, height=800)
+
+    # Create new canvas
+            canvas = tk.Canvas(window, width=1100, height=800)
+
+    # Try to load background image
             try:
-                img = Image.open("ppl.jpg")
-                img = img.resize((1100, 800), Image.LANCZOS)
-                image = ImageTk.PhotoImage(img)
-                canva.create_image(0, 0, image=image, anchor="nw")
-                canva.image = image  # Keep a reference to prevent garbage collection
-            except:
-                canva.configure(bg='blue')  
-            canva.pack(fill="both", expand=True)
+                bg_image = Image.open("schatten.jpg")
+                bg_image = bg_image.resize((1100, 800), Image.LANCZOS)
+                bg_photo = ImageTk.PhotoImage(bg_image)
+                canvas.create_image(0, 0, image=bg_photo, anchor="nw")
+                canvas.image = bg_photo  # Keep a reference
+            except Exception as e:
+                print("Image loading failed:", e)
+                canvas.configure(bg='blue')
+
+            canvas.pack(fill="both", expand=True)
         elif "middle" in tags:
             print("Clicked middle area")
+
+    # Clear the window
             for widget in window.winfo_children():
                 widget.destroy()
-            canva = tk.Canvas(window, width=1100, height=800)
+
+    # Create new canvas
+            canvas = tk.Canvas(window, width=1100, height=800)
+
+    # Try to load background image
             try:
-                img = Image.open("book.jpg")
-                img = img.resize((1100, 800), Image.LANCZOS)
-                image = ImageTk.PhotoImage(img)
-                canva.create_image(0, 0, image=image, anchor="nw")
-            except:
-                canva.configure(bg='blue')  
-            canva.pack(fill="both", expand=True)
+                bg_image = Image.open("book.jpg")
+                bg_image = bg_image.resize((1100, 800), Image.LANCZOS)
+                bg_photo = ImageTk.PhotoImage(bg_image)
+                canvas.create_image(0, 0, image=bg_photo, anchor="nw")
+                canvas.image = bg_photo  # Keep a reference
+            except Exception as e:
+                print("Image loading failed:", e)
+                canvas.configure(bg='blue')
+
+            canvas.pack(fill="both", expand=True)
         elif "right" in tags:
             print("Clicked right area")
+
+    # Clear the window
             for widget in window.winfo_children():
                 widget.destroy()
-            canva = tk.Canvas(window, width=1100, height=800)
+
+    # Create new canvas
+            canvas = tk.Canvas(window, width=1100, height=800)
+
+    # Try to load background image
             try:
-                img = Image.open("awll.jpg")
-                img = img.resize((1100, 800), Image.LANCZOS)
-                image = ImageTk.PhotoImage(img)
-                canva.create_image(0, 0, image=image, anchor="nw")
-            except:
-                canva.configure(bg='blue')  
-            canva.pack(fill="both", expand=True)
-            rätsel=tk.Label(window,text="2 + 2 = 5\n"   #V
-                            "Hauptstadt von Frankreich = Rom\n"  #P
-                            "Die Farbe der Sonne = Blau\n"      #G
-                            "Gegenteil von heiss = Banane\n"    #K
-                            "Wasser gefriert bei = 50°C\n"  #N
-                            "Die Quadratwurzel von 9 = 1\n" #D
-                            "es gibt __ Tage in der Woche = 10\n"   #S
-                            "Die Erde ist flach = Ja")  #R
-            #Lösungswort VPGKNDSR
+                bg_image = Image.open("awll.jpg")
+                bg_image = bg_image.resize((1100, 800), Image.LANCZOS)
+                bg_photo = ImageTk.PhotoImage(bg_image)
+                canvas.create_image(0, 0, image=bg_photo, anchor="nw")
+                canvas.image = bg_photo  # Keep a reference
+            except Exception as e:
+                print("Image loading failed:", e)
+                canvas.configure(bg='blue')
+
+            canvas.pack(fill="both", expand=True)
+
+    # Add intentionally incorrect riddle statements
+            riddle_text = (
+                "2 + 2 = 5\n"                        # V
+                "Hauptstadt von Frankreich = Rom\n"  # P
+                "Die Farbe der Sonne = Blau\n"       # G
+                "Gegenteil von heiß = Banane\n"      # K
+                "Wasser gefriert bei = 50°C\n"       # N
+                "Die Quadratwurzel von 9 = 1\n"      # D
+                "Es gibt __ Tage in der Woche = 10\n" # S
+                "Die Erde ist flach = Ja"            # R
+            )
+
+            riddle_label = tk.Label(window, text=riddle_text, font=("Helvetica", 14), bg="white", justify="left")
+            riddle_label.place(x=50, y=50)
+
+    # Solution word based on false statements: VPGKNDSR
+
             
-        return "break"
+            # return "break"
 
     # Bind the single click handler to all rectangles
     canva.tag_bind("left", "<Button-1>", on_click)
