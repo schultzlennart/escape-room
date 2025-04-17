@@ -103,14 +103,14 @@ settings.lift()
 
 doors = [
     Door(window, 70, 0, "Door 1", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH GUHL"), ws.after(3000, ws.destroy)],    #die Quersumme dieser drei Zahlen ergibt eine drei
+        lambda: [ws := new_window("GLH VXPPH GLHVHU GUHL CDKOHQ HUJLHW HLQH vhfkv"), ws.after(30000, ws.destroy)],    #die summe dieser drei Zahlen ergibt eine sechs
         "escape_room/door.jpg"),
     # [Other doors remain the same...]
     Door(window, 235, 0, "Door 2", "black", 
-        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 7."), ws.after(30000, ws.destroy)],   #Zähle die Nummern der ersten und der dritten Tür. Sie ergeben 7 
+        lambda: [ws := new_window("CDKOH GLH QXPPEU GHU HUVW HQG GHU GULWWHQ WXU. VLH HUJHEHQ 6."), ws.after(30000, ws.destroy)],   #Zähle die Nummern der ersten und der dritten Tür. Sie ergeben 6 
         "escape_room/door.jpg"),
     Door(window, 410, 0, "Door 3", "red", 
-        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVWHQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE VHFKV"), ws.after(30000, ws.destroy)],    #Bilde den Durchschnitt der ersten, dritten und zweiten Tür. der durchscnnitt sollte sechs ergeben im caesar
+        lambda: [ws := new_window("ELOGH GHQ GXFKVFKQLWW GHU HUVWHQ GULWWHQ XQG CZHLWHQ WXU. GHU GXUFKVFKQLWW HUJHHE GUHL"), ws.after(30000, ws.destroy)],    #Bilde den Durchschnitt der ersten, dritten und zweiten Tür. der durchscnnitt sollte 3 ergeben 
         "escape_room/door.jpg"),
     Door(window, 70, 280, "Door 4", "yellow", 
         lambda: [ws := new_window("glh qxpphu ghlvhu wxu lwvlqgq dgglq rxrphq yruq dohq yrukhqwjh qxuhq"), ws.after(30000, ws.destroy)],    # die nummer dieser tür ist die addition von allen vorherigen türen
@@ -119,8 +119,8 @@ doors = [
         lambda: [ws := new_window("Dieser Code ist nach einem bekannten römischen Diktator aufgebaut"), ws.after(30000, ws.destroy)],   
         "escape_room/door.jpg"),
     Door(window, 410, 280, "Door 6", "yellow", 
-        lambda: [ws := new_window("GLH TXHUVXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],  #die Quersumme der esten tür sagt dir, an welche stelle sie kommt
-        "escape_room/door.jpg")
+        lambda: [ws := new_window("GLH kdoiwh VXPPH GHU HUVW HQ WXU VDJW GLU, DQ ZHOFKH VWHOOH VLH NRPPW"), ws.after(30000, ws.destroy)],  #die hälfte der summe der esten tür sagt dir, an welche stelle sie kommt
+        "escape_room/door.jpg")   #tür 3: 2, tür 1: 4,tür2:2,tür4:8 
 ]
 
 # [Rest of UI elements and functions remain unchanged...]
@@ -131,8 +131,7 @@ def get_input(x):
 
 
 def next_level():
-    for widget in window.winfo_children():
-        widget.destroy()
+    clear_window()
     # Add new UI elements after clearing
     canva = tk.Canvas(window, width=1100, height=800)
     try:
@@ -151,8 +150,7 @@ def next_level():
     #The next level is created here
     def another_lvl():
         if display.itemcget("display", "text") == "1215311":
-            for widget in window.winfo_children():
-                widget.destroy()
+            clear_window()
             lvl3()
             ws=new_window("wow didnt think u could do it, congrats")
             ws.after(3000, ws.destroy)
@@ -231,15 +229,14 @@ def lvl3():
             print("Clicked left area")
 
     # Clear the window
-            for widget in window.winfo_children():
-                widget.destroy()
+            clear_window()
 
     # Create new canvas
             canvas = tk.Canvas(window, width=1100, height=800)
 
     # Try to load background image
             try:
-                bg_image = Image.open("schatten.jpg")
+                bg_image = Image.open("bg.jpg")
                 bg_image = bg_image.resize((1100, 800), Image.LANCZOS)
                 bg_photo = ImageTk.PhotoImage(bg_image)
                 canvas.create_image(0, 0, image=bg_photo, anchor="nw")
@@ -253,15 +250,14 @@ def lvl3():
             print("Clicked middle area")
 
     # Clear the window
-            for widget in window.winfo_children():
-                widget.destroy()
+            clear_window()
 
     # Create new canvas
             canvas = tk.Canvas(window, width=1100, height=800)
 
     # Try to load background image
             try:
-                bg_image = Image.open("book.jpg")
+                bg_image = Image.open("bibo.jpg")
                 bg_image = bg_image.resize((1100, 800), Image.LANCZOS)
                 bg_photo = ImageTk.PhotoImage(bg_image)
                 canvas.create_image(0, 0, image=bg_photo, anchor="nw")
@@ -271,12 +267,40 @@ def lvl3():
                 canvas.configure(bg='blue')
 
             canvas.pack(fill="both", expand=True)
+            bookshelves=tk.Canvas(window, width=400, height=300)
+            bookshelves.place(x= 0,y=430)
+            try:
+                fg_image = Image.open("book.jpg")
+                fg_image = fg_image.resize((400, 300), Image.LANCZOS)
+                fg_photo = ImageTk.PhotoImage(fg_image)
+                bookshelves.create_image(0, 0, image=fg_photo, anchor="nw")
+                bookshelves.image = fg_photo  # Keep a reference
+
+            except Exception as e:
+                print("Image loading failed:", e)
+                bookshelves.configure(bg='blue')
+            alphabet=tk.Canvas(window, width=400, height=300)
+            alphabet.place(x=700,y=430)
+            try:
+                fg_image = Image.open("alphajpg.jpg")
+                fg_image = fg_image.resize((400, 300), Image.LANCZOS)
+                fg_photo = ImageTk.PhotoImage(fg_image)
+                alphabet.create_image(0, 0, image=fg_photo, anchor="nw")
+                alphabet.image = fg_photo  # Keep a reference
+
+            except Exception as e:
+                print("Image loading failed:", e)
+                alphabet.configure(bg='blue')
+
+
+
+
+
         elif "right" in tags:
             print("Clicked right area")
 
     # Clear the window
-            for widget in window.winfo_children():
-                widget.destroy()
+            clear_window()
 
     # Create new canvas
             canvas = tk.Canvas(window, width=1100, height=800)
@@ -316,7 +340,7 @@ def lvl3():
                 if us_input == "VPGKNDSR":
                     print("Correct answer!")
                     new_window("You won!")
-                    clear_window()
+                    fin_window()
                     
                 else:
                     print("Wrong answer!")
@@ -341,12 +365,13 @@ def lvl3():
     canva.tag_bind("middle", "<Button-1>", on_click)
     canva.tag_bind("right", "<Button-1>", on_click)
 
-
-
-
 def clear_window():
     for widget in window.winfo_children():
         widget.destroy()
+
+
+def fin_window():
+    clear_window()
     c=tk.Canvas(width=1100, height=800)
     c.pack(fill="both", expand=True)
     winner=tk.Label(c,text="You escaped the Escape Room!",font=("Arial", 60),bg="white")
@@ -358,7 +383,7 @@ def end_window():
     user_input = get_input("u got the right code")
     
     try:
-        if int(user_input) == 4239:
+        if int(user_input) == 4228:
             next_level()
             # Add new UI elements for the next challenge
             
