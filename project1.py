@@ -1,3 +1,4 @@
+
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -304,9 +305,31 @@ def lvl3():
                 "Es gibt __ Tage in der Woche = 10\n" # S
                 "Die Erde ist flach = Ja"            # R
             )
-
             riddle_label = tk.Label(window, text=riddle_text, font=("Helvetica", 14), bg="white", justify="left")
             riddle_label.place(x=50, y=50)
+
+
+            ridd = tk.Text(window, height=5, width=30, font=("Arial", 12), padx=10, pady=10, wrap=tk.WORD)
+            ridd.place(x=600, y=280)
+            def check_code():
+                us_input = ridd.get("1.0", "end-1c").strip().upper()
+                if us_input == "VPGKNDSR":
+                    print("Correct answer!")
+                    new_window("You won!")
+                    clear_window()
+                    
+                else:
+                    print("Wrong answer!")
+                    new_window("You lost!")
+            btn = tk.Button(window, text="Submit Code", command=check_code,
+                                font=("Arial", 12), padx=20, pady=5)
+            btn.place(x=650, y=380)
+
+            # UI
+            
+
+
+
 
     # Solution word based on false statements: VPGKNDSR
 
@@ -321,8 +344,13 @@ def lvl3():
 
 
 
-
-
+def clear_window():
+    for widget in window.winfo_children():
+        widget.destroy()
+    c=tk.Canvas(width=1100, height=800)
+    c.pack(fill="both", expand=True)
+    winner=tk.Label(c,text="You escaped the Escape Room!",font=("Arial", 60),bg="white")
+    winner.place(relx= 0.5, rely=0.5, anchor="center")
 
 
 
