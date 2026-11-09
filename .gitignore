@@ -1,0 +1,10 @@
+*
+!.gitignore
+!README.md
+!*.py
+!*.jpg
+!*.jpeg
+!*.png
+!*.docx
+~$*
+*.vsix
